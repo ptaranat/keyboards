@@ -1,0 +1,28 @@
+{
+  "name": "RAMA WORKS M6-B",
+  "vendorProductId": 1379991659,
+  "macros": [
+    "{KC_RCTL,KC_M}",
+    "{KC_LCTL,KC_C}",
+    "{KC_LCTL,KC_V}",
+    "{KC_LCTL,KC_X}",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "layers": [
+    ["KC_NLCK", "KC_DEL", "TO(1)", "MACRO00", "KC_BSPC", "KC_ENT"],
+    ["TO(0)", "KC_UP", "TO(2)", "KC_LEFT", "KC_DOWN", "KC_RGHT"],
+    ["TO(1)", "KC_PGUP", "TO(0)", "KC_HOME", "KC_PGDN", "KC_END"],
+    ["KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO"]
+  ]
+}
