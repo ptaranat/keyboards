@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BNK8 Keymap for Claude Code</title>
+<style>
+  :root {
+    --bg: #e9e7e2;
+    --panel: #f4f2ee;
+    --cap: #fbfaf8;
+    --cap-top: #ffffff;
+    --cap-edge: #d5d1c9;
+    --cap-shadow: rgba(40, 34, 24, 0.13);
+    --ink: #1b1c1e;
+    --muted: #6f6c66;
+    --hair: #dedad3;
+    --accent: #cf5326;
+    --accent-soft: rgba(207, 83, 38, 0.10);
+    --layer: #46617f;
+    --recess: #dedad2;
+    --ink-soft: #4a4844;
+    --mono: "SF Mono", ui-monospace, Menlo, Consolas, "Cascadia Mono", "DejaVu Sans Mono", "Liberation Mono", monospace;
+    --sans: "Helvetica Neue", Helvetica, -apple-system, Arial, "Liberation Sans", sans-serif;
+    --green: #3f9668;
+    --red: #cf4636;
+    --on-color: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131416;
+      --panel: #1b1c1f;
+      --cap: #26282c;
+      --cap-top: #2f3237;
+      --cap-edge: #0d0e10;
+      --cap-shadow: rgba(0, 0, 0, 0.5);
+      --ink: #eae8e3;
+      --muted: #918e88;
+      --hair: #303338;
+      --accent: #ee6a38;
+      --accent-soft: rgba(238, 106, 56, 0.13);
+      --layer: #7f9dc4;
+      --recess: #141517;
+      --ink-soft: #bcb9b2;
+      --green: #45ac7c;
+      --red: #e2483c;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 40px) 72px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 4vw, 44px);
+  }
+
+  .masthead { display: flex; flex-direction: column; gap: 10px; }
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 200;
+    letter-spacing: 0.04em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .standfirst {
+    color: var(--muted);
+    max-width: 64ch;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .plates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    gap: clamp(20px, 3vw, 34px);
+  }
+  @media (max-width: 520px) {
+    .plates { grid-template-columns: 1fr; }
+  }
+
+  .plate {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-radius: 10px;
+    padding: clamp(16px, 2.4vw, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .plate-head {
+    border-bottom: 1px solid var(--hair);
+    padding-bottom: 12px;
+  }
+  .plate-name {
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* minmax(0, 1fr): a long keycode would otherwise widen its column */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .cap {
+    position: relative;
+    background: linear-gradient(180deg, var(--cap-top), var(--cap));
+    border: 1px solid var(--cap-edge);
+    border-radius: 6px;
+    box-shadow: 0 1px 0 var(--cap-shadow);
+    padding: 11px 11px 9px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .legend {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  /* two lines reserved so the keycode rule lands at one height per row */
+  .desc {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin: 0;
+    min-height: calc(2 * 1.45em);
+  }
+  .code {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--hair);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    min-height: calc(8px + 2 * 1.4em);
+  }
+
+  .cap--talk .legend { color: var(--accent); }
+  .cap--talk::after {
+    content: "";
+    position: absolute;
+    top: 13px; right: 12px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2.5px var(--accent-soft);
+  }
+
+  .cap--go, .cap--stop {
+    border-color: transparent;
+    color: var(--on-color);
+  }
+  .cap--go { background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 60%), var(--green); }
+  .cap--stop { background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 60%), var(--red); }
+  .cap--go .code, .cap--stop .code {
+    color: rgba(255, 255, 255, 0.78);
+    border-top-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .cap--layer .legend { color: var(--layer); }
+  .cap--held {
+    background: var(--recess);
+    box-shadow: inset 0 2px 4px var(--cap-shadow);
+  }
+  .cap--thru .legend { color: var(--muted); }
+
+  @media print {
+    :root {
+      --bg: #ffffff; --panel: #ffffff; --cap: #ffffff; --cap-top: #ffffff;
+      --cap-edge: #b9b5ad; --cap-shadow: rgba(0,0,0,0.10); --ink: #000000;
+      --muted: #55524d; --hair: #cfcbc4; --recess: #ededea;
+    }
+    .wrap { padding: 0; gap: 20px; }
+    .plates { grid-template-columns: 1fr 1fr; }
+    .plate { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>BNK8 for Claude Code</h1>
+    <p class="standfirst">Eight keys and a knob, worked entirely with the left hand. Fn is at middle right, so the index finger holds the layer while the thumb covers the bottom row.</p>
+  </header>
+
+  <div class="plates">
+
+    <section class="plate">
+      <div class="plate-head">
+        <div class="plate-name">Layer 0</div>
+      </div>
+      <div class="grid">
+
+        <div class="cap">
+          <div class="legend">up</div>
+          <div class="code">KC_UP</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">down</div>
+          <div class="code">KC_DOWN</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">knob</div>
+          <p class="desc">Transcript. Twist scrolls under the pointer.</p>
+          <div class="code">KC_MS_WH_UP, KC_MS_WH_DOWN, C(KC_O)</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">stash</div>
+          <p class="desc">Press again to get it back.</p>
+          <div class="code">C(KC_S)</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">cycle mode</div>
+          <p class="desc">Manual, accept edits, plan, auto.</p>
+          <div class="code">S(KC_TAB)</div>
+        </div>
+
+        <div class="cap cap--layer">
+          <div class="legend">fn</div>
+          <p class="desc">Hold for layer 1.</p>
+          <div class="code">MO(1)</div>
+        </div>
+
+        <div class="cap cap--stop">
+          <div class="legend">esc</div>
+          <div class="code">KC_ESC</div>
+        </div>
+
+        <div class="cap cap--talk">
+          <div class="legend">talk</div>
+          <p class="desc">Hold to dictate.</p>
+          <div class="code">C(KC_SPC)</div>
+        </div>
+
+        <div class="cap cap--go">
+          <div class="legend">enter</div>
+          <div class="code">KC_ENT</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="plate">
+      <div class="plate-head">
+        <div class="plate-name">Layer 1</div>
+      </div>
+      <div class="grid">
+
+        <div class="cap cap--thru">
+          <div class="legend">up</div>
+          <div class="code">KC_TRNS</div>
+        </div>
+
+        <div class="cap cap--thru">
+          <div class="legend">down</div>
+          <div class="code">KC_TRNS</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">knob</div>
+          <p class="desc">Model picker. Twist adjusts effort.</p>
+          <div class="code">KC_LEFT, KC_RGHT, A(KC_P)</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">search</div>
+          <p class="desc">Reverse search through old prompts.</p>
+          <div class="code">C(KC_R)</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">thinking</div>
+          <p class="desc">No effect on Fable 5.</p>
+          <div class="code">A(KC_T)</div>
+        </div>
+
+        <div class="cap cap--layer cap--held">
+          <div class="legend">fn</div>
+          <div class="code">MO(1)</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">rewind</div>
+          <p class="desc">Only opens on an empty input.</p>
+          <div class="code">MACRO(0) = {KC_ESC}{KC_ESC}</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">paste image</div>
+          <p class="desc">Drops a clipboard image at the cursor.</p>
+          <div class="code">C(S(KC_V))</div>
+        </div>
+
+        <div class="cap">
+          <div class="legend">new line</div>
+          <p class="desc">Line break without sending.</p>
+          <div class="code">C(KC_J)</div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+</body>
+</html>

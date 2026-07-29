@@ -1,0 +1,76 @@
+{
+  "name": "Binepad BNK8",
+  "vendorProductId": 1112100417,
+  "macros": [
+    "{KC_ESC}{KC_ESC}",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "layers": [
+    [
+      "KC_UP",
+      "KC_DOWN",
+      "C(KC_O)",
+      "C(KC_S)",
+      "S(KC_TAB)",
+      "MO(1)",
+      "KC_ESC",
+      "C(KC_SPC)",
+      "KC_ENT"
+    ],
+    [
+      "KC_TRNS",
+      "KC_TRNS",
+      "A(KC_P)",
+      "C(KC_R)",
+      "A(KC_T)",
+      "KC_TRNS",
+      "MACRO(0)",
+      "C(S(KC_V))",
+      "C(KC_J)"
+    ],
+    [
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS"
+    ],
+    [
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS",
+      "KC_TRNS"
+    ]
+  ],
+  "encoders": [
+    [
+      ["KC_MS_WH_UP", "KC_MS_WH_DOWN"],
+      ["KC_LEFT", "KC_RGHT"],
+      ["KC_TRNS", "KC_TRNS"],
+      ["KC_TRNS", "KC_TRNS"]
+    ]
+  ]
+}
